@@ -1,0 +1,73 @@
+accounts = [["test", "password"]]
+
+def CheckLogin():
+    print("Username: ")
+    username = input()
+    if(username != ""):
+        print("Password: ")
+        password = input()
+        if(password != ""):
+            loginGranted = False
+            for i in range(0,len(accounts)):
+                if(accounts[i][0] == username):
+                    if(accounts[i][1] == password):
+                        print("Login granted")
+                        loginGranted = True
+                        i = len(accounts)
+            if(loginGranted):
+                Program()
+            else:
+                print("Wrong username or password, try again")
+                CheckLogin()
+        else:
+            Program()
+    else:
+        Program()
+
+def ExistingAccount(accountName):
+    for i in range(0,len(accounts)):
+        if(accountName == accounts[i][0]):
+            return True
+    return False
+
+def Register():
+    print("Create username: ")
+    newUsername = input()
+    while(ExistingAccount(newUsername)):
+        print("username allready exist")
+        newUsername = input()
+    if(newUsername != ""):
+        print("Create password: ")
+        newPassword = input()
+        if(newPassword != ""):
+            accounts.append([newUsername, newPassword])
+            print("new user: " + accounts[len(accounts) - 1][0])
+    Program()
+
+def ChangePassword():
+    existingAccount = False
+    accountIndex = 0
+    print("Username: ")
+    username = input()
+    if(username != ""):
+        while(not ExistingAccount(username)):
+            username = input()
+        print("Change password: ")
+        newPassword = input()
+        if(newPassword != ""):
+            accounts[accountIndex][1] = newPassword
+    Program()
+
+def Program():
+    print("OPTIONS (blank enter to exit):\n[1] Login\n[2] Register\n[3] Change password\n[4] Quit")
+    currentInput = input()
+    while(currentInput != "1" and currentInput != "2" and currentInput != "3" and currentInput != "4"):
+        currentInput = input()
+    if(currentInput == "1"):
+        CheckLogin()
+    elif(currentInput == "2"):
+        Register()
+    elif(currentInput == "3"):
+        ChangePassword()
+
+Program()

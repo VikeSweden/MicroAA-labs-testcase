@@ -1,4 +1,5 @@
 accounts = [["test", "password"]]
+loggedInAccount = -1
 
 def CheckLogin():
     print("Username: ")
@@ -13,6 +14,8 @@ def CheckLogin():
                     if(accounts[i][1] == password):
                         print("Login granted")
                         loginGranted = True
+                        global loggedInAccount
+                        loggedInAccount = i
                         i = len(accounts)
             if(loginGranted):
                 Program()
@@ -45,29 +48,66 @@ def Register():
     Program()
 
 def ChangePassword():
-    existingAccount = False
     accountIndex = 0
     print("Username: ")
     username = input()
     if(username != ""):
         while(not ExistingAccount(username)):
             username = input()
+        for i in range(0, len(accounts)):
+            if(username == accounts[i][0]):
+                accountIndex = i
         print("Change password: ")
         newPassword = input()
         if(newPassword != ""):
             accounts[accountIndex][1] = newPassword
     Program()
 
+def RemoveUser():
+    global loggedInAccount
+    if(loggedInAccount >= 0):
+        print("Are you sure you want to remove your account?\n[1] Yes\n[2] No")
+        currentInput = input()
+        while(currentInput != "1" and currentInput != "2"):
+            currentInput = input()
+        if(currentInput == "1"):
+            del accounts[loggedInAccount]
+            loggedInAccount = -1
+            print("Account removed")
+    else:
+        print("You are not logged in")
+    Program()
+
+def SearchUser():
+    print("Search username:")
+    username = input()
+    while(username != ""):
+        userFound = False
+        for i in range(0, len(accounts)):
+            if(username == accounts[i][0]):
+                userFound = True
+                i = len(accounts)
+        if(userFound):
+            print("User found")
+        else:
+            print("Could not find user")
+        username = input()
+    Program()
+
 def Program():
-    print("OPTIONS (blank enter to exit):\n[1] Login\n[2] Register\n[3] Change password\n[4] Quit")
+    print("OPTIONS (blank enter to exit):\n[1] Login\n[2] Register\n[3] Remove user\n[4] Search user\n[5] Change password\n[6] Quit")
     currentInput = input()
-    while(currentInput != "1" and currentInput != "2" and currentInput != "3" and currentInput != "4"):
+    while(currentInput != "1" and currentInput != "2" and currentInput != "3" and currentInput != "4" and currentInput != "5" and currentInput != "6"):
         currentInput = input()
     if(currentInput == "1"):
         CheckLogin()
     elif(currentInput == "2"):
         Register()
     elif(currentInput == "3"):
+        RemoveUser()
+    elif(currentInput == "4"):
+        SearchUser()
+    elif(currentInput == "5"):
         ChangePassword()
 
 Program()

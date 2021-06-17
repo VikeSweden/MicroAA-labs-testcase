@@ -1,0 +1,51 @@
+accounts = [["test", "password"]]
+
+def CheckLogin():
+    print("Username: ")
+    username = input()
+    print("Password: ")
+    password = input()
+    for i in range(0,len(accounts)):
+        if(accounts[i][0] == username):
+            if(accounts[i][1] == password):
+                print("Login granted")
+                i = len(accounts)
+    Program()
+
+def Register():
+    print("Create username: ")
+    newUsername = input()
+    print("Create password: ")
+    newPassword = input()
+    accounts.append([newUsername, newPassword])
+    print("new user: " + accounts[len(accounts) - 1][0])
+    Program()
+
+def ChangePassword():
+    print("Username: ")
+    existingAccount = False
+    accountIndex = 0
+    while(not existingAccount):
+        username = input()
+        for i in range(0, len(accounts)):
+            if (username == accounts[i][0]):
+                existingAccount = True
+                accountIndex = i
+                i = len(accounts)
+    print("Change password: ")
+    accounts[accountIndex][1] = input()
+    Program()
+
+def Program():
+    print("OPTIONS:\n[1] Login\n[2] Register\n[3] Change password\n[4] Quit")
+    currentInput = input()
+    while(currentInput != "1" and currentInput != "2" and currentInput != "3" and currentInput != "4"):
+        currentInput = input()
+    if(currentInput == "1"):
+        CheckLogin()
+    elif(currentInput == "2"):
+        Register()
+    elif(currentInput == "3"):
+        ChangePassword()
+
+Program()
